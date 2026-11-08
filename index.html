@@ -1,219 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Happy First Diwali, Mau 🪔</title>
-<meta name="theme-color" content="#150b2e">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-:root{--night:#150b2e;--plum:#2c1354;--gold:#ffb43a;--rose:#e0457b;--cream:#fff3dc;--ember:#ff7a2f}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 50% 0%,#3a1768 0%,var(--night) 60%) fixed;color:var(--cream);font-family:'Lora',Georgia,serif;font-size:1.12rem;line-height:1.85;overflow-x:hidden}
-body.locked{overflow:hidden}
-h1,h2,.sign{font-family:'Yatra One','Lora',serif;font-weight:400;line-height:1.15;margin:0}
-p{margin:0 0 1.2em}
-canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy First Diwali, Mau 🪔</title>
+    <meta name="theme-color" content="#0a0314">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        night: '#0a0314',
+                        plum: '#2c1354',
+                        gold: '#ffb43a',
+                        rose: '#e0457b',
+                        cream: '#fff3dc',
+                        ember: '#ff7a2f'
+                    },
+                    fontFamily: {
+                        yatra: ['"Yatra One"', 'serif'],
+                        lora: ['"Lora"', 'Georgia', 'serif'],
+                    },
+                    animation: {
+                        'flicker': 'flicker 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        flicker: {
+                            '0%, 100%': { transform: 'scale(1) skewX(0deg)' },
+                            '33%': { transform: 'scale(1.05, 0.95) skewX(3deg)' },
+                            '66%': { transform: 'scale(0.95, 1.05) skewX(-3deg)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(255, 180, 58, 0.3)' },
+                            '100%': { boxShadow: '0 0 60px rgba(255, 180, 58, 0.8)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-/* diya */
-.diya{position:relative;width:150px;height:110px;margin:0 auto}
-.bowl{position:absolute;bottom:0;left:0;right:0;height:62px;border-radius:0 0 150px 150px;background:linear-gradient(#e0813a,#8e3b17);box-shadow:inset 0 6px 0 #ffb86b,0 0 40px rgba(255,140,40,.0);transition:box-shadow 1s}
-.bowl::after{content:"";position:absolute;left:12%;right:12%;top:12px;height:8px;border-radius:50%;background:repeating-linear-gradient(90deg,#ffd38a 0 8px,transparent 8px 16px);opacity:.7}
-.flame{position:absolute;left:50%;bottom:58px;width:30px;height:62px;margin-left:-15px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(ellipse at 50% 75%,#fff6c8 0,#ffc23a 38%,var(--ember) 80%);transform-origin:50% 100%;transform:scale(0);opacity:0;filter:blur(.4px);transition:transform .6s,opacity .6s}
-.lit .flame,.gate.lighting .flame{transform:scale(1);opacity:1;animation:flick 1.6s ease-in-out infinite .6s}
-.lit .bowl,.gate.lighting .bowl{box-shadow:inset 0 6px 0 #ffb86b,0 0 70px 20px rgba(255,150,50,.45)}
-@keyframes flick{0%,100%{transform:scale(1) skewX(0)}30%{transform:scale(1.04,.96) skewX(2deg)}60%{transform:scale(.97,1.05) skewX(-2deg)}}
+    <style>
+        body {
+            background: radial-gradient(circle at 50% 10%, #2c1354 0%, #0a0314 70%) fixed;
+            overflow-x: hidden;
+        }
+        body.locked { overflow: hidden; }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0314; }
+        ::-webkit-scrollbar-thumb { background: #e0457b; border-radius: 4px; }
+        
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* gate */
-.gate{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;background:#0d0620;text-align:center;padding:24px;transition:opacity 1.4s ease .5s,visibility 0s 1.9s}
-.gate.gone{opacity:0;visibility:hidden}
-.gate button{font:inherit;font-size:1.15rem;color:var(--cream);background:none;border:1px solid rgba(255,180,58,.6);border-radius:999px;padding:.7em 1.6em;cursor:pointer}
-.gate button:hover,.gate button:focus-visible{background:rgba(255,180,58,.15);outline:2px solid var(--gold);outline-offset:3px}
-.gate p{margin:0;opacity:.75;font-style:italic}
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(44, 19, 84, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 180, 58, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0, 0.4);
+        }
 
-/* layout */
-main{max-width:980px;margin:0 auto;padding:0 22px}
-section{padding:72px 0}
-.hero{min-height:100svh;display:grid;gap:36px;align-items:center;padding:56px 0 40px}
-.hero .diya{margin:0 0 18px}
-h1{font-size:clamp(2.4rem,9vw,4.6rem);color:var(--gold);text-shadow:0 0 30px rgba(255,150,50,.35)}
-.hero p.lead{font-size:1.3rem;margin-top:22px}
-h2{font-size:clamp(1.7rem,5.5vw,2.5rem);color:var(--gold);margin-bottom:.6em}
-.split{display:grid;gap:34px;align-items:center}
-@media(min-width:780px){
- .hero,.split{grid-template-columns:1.1fr .9fr;gap:60px}
- .split.flip>figure{order:-1}
-}
-.big{font-family:'Yatra One',serif;font-size:clamp(1.6rem,5vw,2.6rem);line-height:1.35;text-align:center;max-width:22ch;margin:0 auto;color:var(--cream)}
-.big span{color:var(--rose)}
+        /* Diya Specifics */
+        .flame-path {
+            transform-origin: 50% 80%;
+            transition: all 1s ease-in-out;
+        }
+        .gate.lighting .flame-path, .lit-diya .flame-path {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            animation: flicker 1.5s ease-in-out infinite alternate;
+        }
+        .lit-diya .diya-glow {
+            filter: drop-shadow(0 0 40px rgba(255,180,58,0.6));
+        }
 
-/* arch photo frames */
-figure{margin:0}
-figure.arch{width:min(100%,360px);margin:0 auto;padding:10px;border-radius:999px 999px 18px 18px;background:linear-gradient(160deg,var(--gold),var(--rose));box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 60px rgba(255,150,50,.18)}
-figure.arch img{display:block;width:100%;aspect-ratio:3/4.2;object-fit:cover;border-radius:999px 999px 10px 10px;cursor:zoom-in}
-figure.arch.top img{object-position:50% 12%}
-figure.arch.mid img{object-position:50% 30%}
-figcaption{text-align:center;font-style:italic;opacity:.8;margin-top:12px;font-size:.98rem}
-
-/* scrapbook */
-.board{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.board figure{background:#fff3dc;color:#3a1768;padding:10px 10px 6px;border-radius:6px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
-.board figure:first-child{grid-column:1/-1;transform:rotate(-1deg)}
-.board figure:nth-child(2){transform:rotate(1.6deg)}
-.board figure:nth-child(3){transform:rotate(-1.4deg)}
-.board img{display:block;width:100%;border-radius:3px;cursor:zoom-in}
-.board figure:not(:first-child) img{aspect-ratio:3/4;object-fit:cover}
-.board figcaption{color:#3a1768;margin:8px 0 4px;opacity:1}
-.board+.note{margin-top:44px;text-align:center;max-width:34em;margin-inline:auto}
-
-.quote{border-left:3px solid var(--rose);padding:.2em 0 .2em 1.2em;font-style:italic;margin:1.6em 0;font-size:1.2rem}
-
-/* finale */
-.finale{text-align:center;padding-bottom:110px}
-.finale .diya{margin-bottom:30px}
-.sign{font-size:clamp(2.2rem,8vw,4rem);color:var(--gold);margin:26px 0 8px}
-.finale .who{color:var(--rose);font-size:1.15rem}
-.finale button{margin-top:34px;font:inherit;color:var(--night);background:var(--gold);border:0;border-radius:999px;padding:.7em 1.7em;cursor:pointer;font-size:1.05rem}
-.finale button:focus-visible,.finale button:hover{outline:3px solid var(--cream);outline-offset:3px}
-
-/* lightbox */
-.lb{position:fixed;inset:0;z-index:60;background:rgba(10,4,24,.94);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
-.lb.on{display:flex}
-.lb img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 0 80px rgba(255,150,50,.3)}
-
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-</style>
+        /* Polaroid styling */
+        .polaroid {
+            background: #fff3dc;
+            padding: 12px 12px 24px 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 0 25px 50px rgba(255, 180, 58, 0.3);
+        }
+    </style>
 </head>
-<body class="locked">
+<body class="locked text-cream font-lora text-lg leading-relaxed antialiased">
 
-<canvas id="fx" aria-hidden="true"></canvas>
+    <!-- Fireworks & Embers Canvas -->
+    <canvas id="fx" class="fixed inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true"></canvas>
 
-<div class="gate" id="gate">
-  <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
-  <p>Something small is waiting for you, Mau.</p>
-  <button id="light" type="button">Light the diya 🪔</button>
-</div>
+    <!-- Introductory Gate -->
+    <div id="gate" class="gate fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-night transition-all duration-1000 ease-in-out">
+        
+        <!-- SVG Diya -->
+        <div class="relative w-48 h-48 flex items-center justify-center">
+            <svg class="diya-svg w-full h-full drop-shadow-2xl z-10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Flame Glow Base (Hidden until lit) -->
+                <circle cx="100" cy="80" r="40" fill="rgba(255,180,58,0)" class="transition-all duration-1000" id="gate-glow"/>
+                
+                <!-- Flame Parts -->
+                <path class="flame-path opacity-0 scale-0" d="M100,30 C100,30 60,95 100,125 C140,95 100,30 100,30 Z" fill="url(#flameGrad)" />
+                <path class="flame-path opacity-0 scale-0" d="M100,55 C100,55 80,100 100,125 C120,100 100,55 100,55 Z" fill="#fff3dc" />
+                
+                <!-- Bowl Base -->
+                <path d="M30,125 Q100,200 170,125 Q100,140 30,125 Z" fill="url(#baseGrad)" />
+                <ellipse cx="100" cy="125" rx="70" ry="15" fill="#5a1805" />
+                <ellipse cx="100" cy="125" rx="62" ry="10" fill="url(#oilGrad)" opacity="0.9" />
+                
+                <!-- Defs for Gradients -->
+                <defs>
+                    <linearGradient id="baseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#e0813a" />
+                        <stop offset="100%" stop-color="#5a1805" />
+                    </linearGradient>
+                    <radialGradient id="flameGrad" cx="50%" cy="80%" r="50%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="30%" stop-color="#ffb43a" />
+                        <stop offset="100%" stop-color="#e0457b" />
+                    </radialGradient>
+                    <linearGradient id="oilGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ffb43a" />
+                        <stop offset="50%" stop-color="#8e3b17" />
+                        <stop offset="100%" stop-color="#ffb43a" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
 
-<main>
-  <section class="hero">
-    <div>
-      <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
-      <h1>Happy First Diwali, My Mauuu, My Dugi! ❤️</h1>
-      <p class="lead">This Diwali is extra special because it’s our <strong>FIRST DIWALI TOGETHER!</strong> 🥹✨</p>
+        <p class="font-lora italic text-xl opacity-80 animate-pulse text-gold text-center px-4">
+            Something small is waiting for you, Mau...
+        </p>
+        
+        <button id="light-btn" type="button" class="group relative px-8 py-3 font-yatra text-2xl text-cream rounded-full border border-gold/50 bg-gold/10 overflow-hidden transition-all hover:scale-105 hover:border-gold hover:shadow-[0_0_20px_rgba(255,180,58,0.5)] focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-night">
+            <span class="relative z-10">Light the diya 🪔</span>
+            <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 group-hover:scale-100 group-hover:bg-gold/20"></div>
+        </button>
     </div>
-    <figure class="arch top"><img src="p1.jpg" alt="Sanskar and Mau standing together in a park, Mau looking up at him" loading="eager"></figure>
-  </section>
 
-  <section class="split">
-    <div>
-      <h2>My life changer</h2>
-      <p>I don’t know how to explain how much you mean to me, Mau. But one thing I know is that when you came into my life, everything slowly started changing.</p>
-      <p>You didn’t just become a part of my life; you became the reason behind so many changes in me. You are truly my life changer. ❤️</p>
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12 py-12 flex flex-col gap-24 lg:gap-40">
+        
+        <!-- Hero Section -->
+        <section class="reveal min-h-[90vh] flex flex-col lg:flex-row items-center justify-center gap-12 pt-20">
+            <div class="flex-1 text-center lg:text-left space-y-6">
+                <!-- Small decorative lit diya -->
+                <div class="lit-diya w-24 h-24 mx-auto lg:mx-0 mb-4 animate-float diya-glow">
+                    <svg class="w-full h-full" viewBox="0 0 200 200">
+                        <path class="flame-path opacity-100 scale-100" d="M100,30 C100,30 60,95 100,125 C140,95 100,30 100,30 Z" fill="url(#flameGrad)" />
+                        <path class="flame-path opacity-100 scale-100" d="M100,55 C100,55 80,100 100,125 C120,100 100,55 100,55 Z" fill="#fff3dc" />
+                        <path d="M30,125 Q100,200 170,125 Q100,140 30,125 Z" fill="url(#baseGrad)" />
+                        <ellipse cx="100" cy="125" rx="70" ry="15" fill="#5a1805" />
+                        <ellipse cx="100" cy="125" rx="62" ry="10" fill="url(#oilGrad)" opacity="0.9" />
+                    </svg>
+                </div>
+                <h1 class="font-yatra text-5xl md:text-7xl lg:text-8xl text-transparent bg-clip-text bg-gradient-to-br from-gold via-yellow-200 to-rose drop-shadow-[0_0_25px_rgba(255,180,58,0.4)] leading-tight">
+                    Happy First Diwali,<br>My Mauuu, My Dugi! ❤️
+                </h1>
+                <p class="text-xl md:text-2xl text-cream/90 font-light border-l-4 border-rose pl-6 mt-6">
+                    This Diwali is extra special because it’s our <strong class="text-gold font-semibold">FIRST DIWALI TOGETHER!</strong> 🥹✨
+                </p>
+            </div>
+            <div class="flex-1 w-full max-w-md mx-auto relative group">
+                <div class="absolute -inset-2 bg-gradient-to-r from-gold to-rose rounded-t-[1000px] rounded-b-3xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+                <figure class="relative bg-gradient-to-br from-gold/40 to-rose/40 p-2 rounded-t-[1000px] rounded-b-3xl backdrop-blur-sm shadow-2xl">
+                    <img src="https://placehold.co/800x1100/2c1354/ffb43a?text=You+%26+Me+Standing+Together" alt="Sanskar and Mau standing together" class="w-full aspect-[3/4.2] object-cover rounded-t-[1000px] rounded-b-2xl cursor-zoom-in photo-trigger">
+                </figure>
+            </div>
+        </section>
+
+        <!-- Story Section 1 -->
+        <section class="reveal flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+            <div class="flex-1 w-full max-w-md mx-auto">
+                <figure class="relative bg-gradient-to-tl from-gold/40 to-rose/40 p-2 rounded-t-[1000px] rounded-b-3xl shadow-2xl transform lg:-rotate-2 transition hover:rotate-0 duration-500">
+                    <img src="https://placehold.co/800x1100/150b2e/e0457b?text=Smiling+Together+Under+Trees" alt="Both smiling at the camera" class="w-full aspect-[3/4] object-cover rounded-t-[1000px] rounded-b-2xl cursor-zoom-in photo-trigger">
+                </figure>
+            </div>
+            <div class="flex-1 glass-card p-8 md:p-12 rounded-3xl space-y-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full blur-3xl"></div>
+                <h2 class="font-yatra text-4xl md:text-5xl text-gold mb-4 drop-shadow-lg">My Life Changer</h2>
+                <p class="text-lg md:text-xl text-cream/90">
+                    I don’t know how to explain how much you mean to me, Mau. But one thing I know is that when you came into my life, everything slowly started changing.
+                </p>
+                <p class="text-lg md:text-xl text-cream/90">
+                    You didn’t just become a part of my life; you became the reason behind so many changes in me. You are truly my <span class="text-rose font-semibold">life changer</span>. ❤️
+                </p>
+            </div>
+        </section>
+
+        <!-- Intermission Quote -->
+        <section class="reveal py-12">
+            <div class="text-center max-w-3xl mx-auto">
+                <p class="font-yatra text-3xl md:text-5xl leading-tight text-cream drop-shadow-md">
+                    Every memory with you is <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose to-gold animate-pulse">special</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Scrapbook / Polaroids Section -->
+        <section class="reveal space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <h2 class="font-yatra text-4xl md:text-5xl text-gold drop-shadow-lg">College masti, late nights, bhandans</h2>
+                <p class="text-lg md:text-xl text-cream/90">
+                    From our college masti to our endless late-night calls, from silly arguments to our little moments of happiness, every memory with you is special. Even our bhandans have their own beautiful story. 😂❤️
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-12 py-10">
+                <!-- Polaroid 1 -->
+                <figure class="polaroid rotate-[-3deg] md:col-span-3 lg:col-span-1 max-w-md mx-auto w-full">
+                    <img src="https://placehold.co/800x600/e0457b/fff3dc?text=Group+Selfie" alt="College masti" class="w-full aspect-[4/3] object-cover rounded-sm cursor-zoom-in photo-trigger">
+                    <figcaption class="font-yatra text-night text-center text-xl mt-4">College masti</figcaption>
+                </figure>
+                <!-- Polaroid 2 -->
+                <figure class="polaroid rotate-[4deg] max-w-md mx-auto w-full md:-mt-8">
+                    <img src="https://placehold.co/600x800/ffb43a/2c1354?text=ID+Cards" alt="Our college days" class="w-full aspect-[3/4] object-cover rounded-sm cursor-zoom-in photo-trigger">
+                    <figcaption class="font-yatra text-night text-center text-xl mt-4">Our college days</figcaption>
+                </figure>
+                <!-- Polaroid 3 -->
+                <figure class="polaroid rotate-[-2deg] max-w-md mx-auto w-full md:mt-12">
+                    <img src="https://placehold.co/600x800/2c1354/ffb43a?text=Festive+Outfits" alt="Festive nights" class="w-full aspect-[3/4] object-cover rounded-sm cursor-zoom-in photo-trigger">
+                    <figcaption class="font-yatra text-night text-center text-xl mt-4">Festive nights</figcaption>
+                </figure>
+            </div>
+            
+            <p class="text-center text-lg italic text-cream/80 max-w-2xl mx-auto">
+                "Our college memories, our random talks, our late-night calls, our teasing, our nok-jhok and even our little fights are things I never want to forget."
+            </p>
+        </section>
+
+        <!-- Story Section 2 -->
+        <section class="reveal flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            <div class="flex-1 glass-card p-8 md:p-12 rounded-3xl space-y-6 relative overflow-hidden order-2 lg:order-1">
+                <div class="absolute bottom-0 left-0 w-40 h-40 bg-rose/10 rounded-full blur-3xl"></div>
+                <h2 class="font-yatra text-4xl md:text-5xl text-gold mb-4 drop-shadow-lg">What you taught me, Dugi</h2>
+                <p class="text-lg md:text-xl text-cream/90">
+                    Dugi, you taught me something very important about love: every fight doesn’t mean someone is right or wrong. Sometimes, love means understanding, adjusting and choosing each other even when things get difficult.
+                </p>
+                <p class="text-lg md:text-xl text-cream/90">
+                    I know I’m not always correct. Sometimes I make mistakes, sometimes I get angry, and sometimes I don’t understand things properly. But I’m learning.
+                </p>
+                <blockquote class="border-l-4 border-gold pl-6 py-2 italic text-xl text-gold/90 font-medium">
+                    You have taught me that a relationship isn’t about winning every argument; it’s about understanding each other and not giving up on each other.
+                </blockquote>
+            </div>
+            <div class="flex-1 w-full max-w-md mx-auto order-1 lg:order-2">
+                <figure class="relative bg-gradient-to-tr from-gold/40 to-rose/40 p-2 rounded-t-[1000px] rounded-b-3xl shadow-2xl transform lg:rotate-2 transition hover:rotate-0 duration-500">
+                    <img src="https://placehold.co/800x1100/150b2e/ffb43a?text=Arm+In+Arm" alt="Standing arm in arm" class="w-full aspect-[3/4.2] object-cover rounded-t-[1000px] rounded-b-2xl cursor-zoom-in photo-trigger">
+                </figure>
+            </div>
+        </section>
+
+        <!-- Story Section 3 -->
+        <section class="reveal flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+            <div class="flex-1 w-full max-w-md mx-auto">
+                <figure class="relative bg-gradient-to-r from-gold/40 to-rose/40 p-2 rounded-t-[1000px] rounded-b-3xl shadow-2xl">
+                    <img src="https://placehold.co/800x1100/e0457b/fff3dc?text=Walking+Together" alt="Walking together down a leafy path" class="w-full aspect-[3/4.2] object-cover rounded-t-[1000px] rounded-b-2xl cursor-zoom-in photo-trigger">
+                </figure>
+            </div>
+            <div class="flex-1 glass-card p-8 md:p-12 rounded-3xl space-y-6">
+                <h2 class="font-yatra text-4xl md:text-5xl text-gold mb-4 drop-shadow-lg">Not perfect, just growing</h2>
+                <p class="text-lg md:text-xl text-cream/90">
+                    Mau, I don’t want us to be perfect. I just want us to keep growing together, understanding each other, supporting each other and creating thousands of beautiful memories.
+                </p>
+                <p class="text-lg md:text-xl text-cream/90">
+                    Thank you for entering my life and changing it in ways you probably don’t even realise.
+                </p>
+                <p class="text-lg md:text-xl text-rose font-medium mt-4">
+                    May this Diwali bring you endless happiness, success, love and all the beautiful things you deserve.
+                </p>
+            </div>
+        </section>
+
+        <!-- Intermission Quote 2 -->
+        <section class="reveal py-12">
+            <div class="text-center max-w-4xl mx-auto glass-card p-8 md:p-12 rounded-3xl shadow-[0_0_40px_rgba(224,69,123,0.2)]">
+                <p class="font-yatra text-3xl md:text-5xl leading-tight text-cream">
+                    No matter how many bhandans we have, let’s never stop <span class="text-gold">choosing each other</span>. ❤️
+                </p>
+            </div>
+        </section>
+
+        <!-- Finale Section -->
+        <section class="reveal flex flex-col items-center justify-center text-center pb-32 pt-12 space-y-8">
+            <div class="lit-diya w-32 h-32 mb-6 animate-float diya-glow">
+                <!-- Reusing Diya SVG -->
+                <svg class="w-full h-full" viewBox="0 0 200 200">
+                    <path class="flame-path opacity-100 scale-100" d="M100,30 C100,30 60,95 100,125 C140,95 100,30 100,30 Z" fill="url(#flameGrad)" />
+                    <path class="flame-path opacity-100 scale-100" d="M100,55 C100,55 80,100 100,125 C120,100 100,55 100,55 Z" fill="#fff3dc" />
+                    <path d="M30,125 Q100,200 170,125 Q100,140 30,125 Z" fill="url(#baseGrad)" />
+                    <ellipse cx="100" cy="125" rx="70" ry="15" fill="#5a1805" />
+                    <ellipse cx="100" cy="125" rx="62" ry="10" fill="url(#oilGrad)" opacity="0.9" />
+                </svg>
+            </div>
+            
+            <p class="text-xl md:text-2xl text-cream/90 max-w-2xl">
+                And one more thing, Dugi, I hope this is just the <strong class="text-gold">FIRST</strong> of countless Diwalis we celebrate together. 🥹❤️
+            </p>
+            
+            <div class="font-yatra text-5xl md:text-7xl text-gold mt-8 mb-4 drop-shadow-[0_0_30px_rgba(255,180,58,0.5)]">
+                Happy Diwali, Mau! ❤️
+            </div>
+            
+            <p class="text-rose text-xl md:text-2xl font-medium max-w-3xl">
+                My favourite person, my Dugi, my life changer and one of the most special parts of my life.
+            </p>
+            
+            <p class="font-yatra text-3xl text-cream mt-6 tracking-wider">
+                Love you, Mauuu! 🫂❤️🪔
+            </p>
+            
+            <button id="again-btn" type="button" class="mt-12 group relative px-8 py-4 font-yatra text-xl text-night bg-gradient-to-r from-gold to-yellow-300 rounded-full shadow-[0_0_20px_rgba(255,180,58,0.6)] overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,180,58,0.8)] focus:outline-none">
+                <span class="relative z-10">Light up the sky again ✨</span>
+                <div class="absolute inset-0 h-full w-full bg-white/20 scale-0 rounded-full transition-all duration-300 group-hover:scale-100"></div>
+            </button>
+        </section>
+    </main>
+
+    <!-- Lightbox for Photos -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-night/95 backdrop-blur-sm hidden items-center justify-center p-4 cursor-zoom-out transition-opacity opacity-0 duration-300" role="dialog" aria-label="Photo View">
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[90vh] rounded-xl shadow-[0_0_50px_rgba(255,180,58,0.3)] transform scale-95 transition-transform duration-300">
+        <div class="absolute top-6 right-6 text-cream text-4xl hover:text-gold cursor-pointer">&times;</div>
     </div>
-    <figure class="arch"><img src="p4.jpg" alt="Both smiling at the camera under the trees" loading="lazy"></figure>
-  </section>
 
-  <section>
-    <p class="big">Every memory with you is <span>special</span>.</p>
-  </section>
+    <!-- Logic Script -->
+    <script>
+    (function(){
+        // Particles Canvas Logic
+        const cv = document.getElementById('fx');
+        const cx = cv.getContext('2d');
+        let P = [], W, H;
+        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const cols = ['#ffb43a', '#ff7a2f', '#e0457b', '#fff3dc', '#ffd38a', '#fffae6'];
+        
+        function size() {
+            const d = window.devicePixelRatio || 1;
+            W = cv.width = window.innerWidth * d;
+            H = cv.height = window.innerHeight * d;
+            cx.setTransform(d, 0, 0, d, 0, 0);
+        }
+        window.addEventListener('resize', size);
+        size();
+        
+        function burst(x, y, n, isFirework = false) {
+            if(still) return;
+            for(let i=0; i<n; i++) {
+                const a = Math.random() * Math.PI * 2;
+                const s = isFirework ? (2 + Math.random() * 8) : (1.5 + Math.random() * 4);
+                P.push({
+                    x: x, 
+                    y: y, 
+                    vx: Math.cos(a) * s, 
+                    vy: Math.sin(a) * s - (isFirework ? 2 : 1), 
+                    l: 1, 
+                    d: isFirework ? (0.005 + Math.random() * 0.01) : (0.008 + Math.random() * 0.012), 
+                    c: cols[Math.floor(Math.random() * cols.length)], 
+                    r: isFirework ? (2 + Math.random() * 3) : (1.5 + Math.random() * 2),
+                    gravity: isFirework ? 0.04 : 0.01
+                });
+            }
+        }
+        
+        let lit = false;
+        
+        // Ambient background embers
+        function ember() {
+            if(lit && !still && P.length < 150 && Math.random() < 0.2) {
+                P.push({
+                    x: Math.random() * window.innerWidth, 
+                    y: window.innerHeight + 20, 
+                    vx: (Math.random() - 0.5) * 1, 
+                    vy: -(1 + Math.random() * 2), 
+                    l: 0.8 + Math.random() * 0.2, 
+                    d: 0.001 + Math.random() * 0.002, 
+                    c: cols[Math.floor(Math.random() * 2)], // Mostly gold/orange
+                    r: 1 + Math.random() * 2.5,
+                    gravity: -0.01 // float up
+                });
+            }
+        }
+        
+        function tick() {
+            cx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ember();
+            for(let i = P.length - 1; i >= 0; i--) {
+                let p = P[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.l -= p.d;
+                
+                if(p.l <= 0) {
+                    P.splice(i, 1);
+                    continue;
+                }
+                
+                cx.globalAlpha = Math.max(p.l, 0);
+                cx.fillStyle = p.c;
+                cx.beginPath();
+                cx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                cx.fill();
+                
+                // Add glow to brighter particles
+                if (p.r > 2) {
+                    cx.shadowBlur = 10;
+                    cx.shadowColor = p.c;
+                } else {
+                    cx.shadowBlur = 0;
+                }
+            }
+            cx.globalAlpha = 1;
+            cx.shadowBlur = 0;
+            requestAnimationFrame(tick);
+        }
+        tick();
+        
+        function massiveSkyBurst() {
+            for(let i = 0; i < 8; i++) {
+                setTimeout(function() {
+                    burst(
+                        window.innerWidth * (0.1 + Math.random() * 0.8), 
+                        window.innerHeight * (0.1 + Math.random() * 0.5), 
+                        100, 
+                        true
+                    );
+                }, i * 400);
+            }
+        }
 
-  <section>
-    <h2>College masti, late nights, bhandans</h2>
-    <p>From our college masti to our endless late-night calls, from silly arguments to our little moments of happiness, every memory with you is special. Even our bhandans have their own beautiful story. 😂❤️</p>
-    <div class="board">
-      <figure><img src="p2.jpg" alt="Group selfie with friends on the Sanjivani University grounds" loading="lazy"><figcaption>College masti</figcaption></figure>
-      <figure><img src="p7.jpg" alt="Mau and Sanskar with their university ID lanyards" loading="lazy"><figcaption>Our college days</figcaption></figure>
-      <figure><img src="p3.jpg" alt="Festive night in colourful traditional outfits with a friend" loading="lazy"><figcaption>Festive nights</figcaption></figure>
-    </div>
-    <p class="note">Our college memories, our random talks, our late-night calls, our teasing, our nok-jhok and even our little fights are things I never want to forget.</p>
-  </section>
+        // Gate Logic
+        const gate = document.getElementById('gate');
+        const gateGlow = document.getElementById('gate-glow');
+        
+        document.getElementById('light-btn').addEventListener('click', function() {
+            // Ignite animations
+            gate.classList.add('lighting');
+            gateGlow.setAttribute('fill', 'rgba(255,180,58,0.4)');
+            gateGlow.setAttribute('filter', 'blur(20px)');
+            
+            setTimeout(function() {
+                document.body.classList.remove('locked');
+                lit = true;
+                
+                // Fade out gate smoothly
+                gate.style.opacity = '0';
+                gate.style.pointerEvents = 'none';
+                
+                massiveSkyBurst();
+                window.scrollTo(0, 0);
+                
+                setTimeout(() => gate.style.display = 'none', 1000);
+            }, 1200);
+        });
 
-  <section class="split flip">
-    <div>
-      <h2>What you taught me, Dugi</h2>
-      <p>Dugi, you taught me something very important about love: every fight doesn’t mean someone is right or wrong. Sometimes, love means understanding, adjusting and choosing each other even when things get difficult.</p>
-      <p>I know I’m not always correct. Sometimes I make mistakes, sometimes I get angry, and sometimes I don’t understand things properly. But I’m learning.</p>
-      <p class="quote">You have taught me that a relationship isn’t about winning every argument; it’s about understanding each other and not giving up on each other.</p>
-    </div>
-    <figure class="arch mid"><img src="p5.jpg" alt="Standing arm in arm, both smiling" loading="lazy"></figure>
-  </section>
+        // Finale Button
+        document.getElementById('again-btn').addEventListener('click', massiveSkyBurst);
+        
+        // Interactive Canvas Clicks
+        document.addEventListener('click', function(e) {
+            if(lit && !e.target.closest('button, .photo-trigger, #lightbox')) {
+                burst(e.clientX, e.clientY, 35, true);
+            }
+        });
 
-  <section class="split">
-    <div>
-      <h2>Not perfect, just growing</h2>
-      <p>Mau, I don’t want us to be perfect. I just want us to keep growing together, understanding each other, supporting each other and creating thousands of beautiful memories.</p>
-      <p>Thank you for entering my life and changing it in ways you probably don’t even realise.</p>
-      <p>May this Diwali bring you endless happiness, success, love and all the beautiful things you deserve.</p>
-    </div>
-    <figure class="arch top"><img src="p6.jpg" alt="Walking together down a leafy path, looking at each other" loading="lazy"></figure>
-  </section>
+        // Lightbox Logic
+        const lb = document.getElementById('lightbox');
+        const li = document.getElementById('lightbox-img');
+        
+        document.querySelectorAll('.photo-trigger').forEach(function(im) {
+            im.addEventListener('click', function(e) {
+                e.stopPropagation();
+                li.src = im.src;
+                li.alt = im.alt;
+                lb.classList.remove('hidden');
+                lb.classList.add('flex');
+                
+                // Small delay to allow display:flex to apply before animating opacity
+                setTimeout(() => {
+                    lb.classList.remove('opacity-0');
+                    li.classList.remove('scale-95');
+                    li.classList.add('scale-100');
+                }, 10);
+            });
+        });
+        
+        function closeLightbox() {
+            lb.classList.add('opacity-0');
+            li.classList.remove('scale-100');
+            li.classList.add('scale-95');
+            setTimeout(() => {
+                lb.classList.add('hidden');
+                lb.classList.remove('flex');
+            }, 300);
+        }
+        
+        lb.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Escape') closeLightbox();
+        });
 
-  <section>
-    <p class="big">No matter how many bhandans we have, let’s never stop <span>choosing each other</span>. ❤️</p>
-  </section>
+        // Scroll Reveal Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
 
-  <section class="finale">
-    <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
-    <p>And one more thing, Dugi, I hope this is just the FIRST of countless Diwalis we celebrate together. 🥹❤️</p>
-    <div class="sign">Happy Diwali, Mau! ❤️</div>
-    <p class="who">My favourite person, my Dugi, my life changer and one of the most special parts of my life.</p>
-    <p>Love you, Mauuu! 🫂❤️🪔</p>
-    <button id="again" type="button">Light up the sky again ✨</button>
-  </section>
-</main>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Reveal only once
+                }
+            });
+        }, observerOptions);
 
-<div class="lb" id="lb" role="dialog" aria-label="Photo"><img alt=""></div>
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
 
-<script>
-(function(){
-  var cv=document.getElementById('fx'),cx=cv.getContext('2d'),P=[],W,H;
-  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cols=['#ffb43a','#ff7a2f','#e0457b','#fff3dc','#ffd38a'];
-  function size(){var d=window.devicePixelRatio||1;W=cv.width=innerWidth*d;H=cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
-  addEventListener('resize',size);size();
-  function burst(x,y,n){
-    if(still)return;
-    for(var i=0;i<n;i++){var a=Math.random()*6.283,s=1.5+Math.random()*5;
-      P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:1,d:.008+Math.random()*.012,c:cols[i%cols.length],r:1.5+Math.random()*2})}
-  }
-  var lit=false;
-  function ember(){
-    if(lit&&!still&&P.length<90&&Math.random()<.12)
-      P.push({x:Math.random()*innerWidth,y:innerHeight+10,vx:(Math.random()-.5)*.6,vy:-(.6+Math.random()*1.2),l:.7,d:.002,c:'#ffb43a',r:1+Math.random()*1.6,e:1});
-  }
-  function tick(){
-    cx.clearRect(0,0,innerWidth,innerHeight);ember();
-    for(var i=P.length-1;i>=0;i--){var p=P[i];
-      p.x+=p.vx;p.y+=p.vy;if(!p.e)p.vy+=.06;p.l-=p.d;
-      if(p.l<=0){P.splice(i,1);continue}
-      cx.globalAlpha=Math.max(p.l,0);cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill()}
-    cx.globalAlpha=1;requestAnimationFrame(tick)
-  }
-  tick();
-  function sky(){for(var i=0;i<5;i++)setTimeout(function(){burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.4),70)},i*350)}
-
-  var gate=document.getElementById('gate');
-  document.getElementById('light').addEventListener('click',function(){
-    gate.classList.add('lighting');
-    setTimeout(function(){
-      document.body.classList.remove('locked');document.body.classList.add('lit');lit=true;
-      gate.classList.add('gone');sky();window.scrollTo(0,0)
-    },900)
-  });
-  document.getElementById('again').addEventListener('click',sky);
-  document.addEventListener('click',function(e){if(lit&&!e.target.closest('button,.lb'))burst(e.clientX,e.clientY,26)});
-
-  var lb=document.getElementById('lb'),li=lb.querySelector('img');
-  document.querySelectorAll('figure img').forEach(function(im){
-    im.addEventListener('click',function(){li.src=im.src;li.alt=im.alt;lb.classList.add('on')})
-  });
-  lb.addEventListener('click',function(){lb.classList.remove('on')});
-  addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
-})();
-</script>
+    })();
+    </script>
 </body>
 </html>
