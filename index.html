@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy First Diwali, Mau 🪔</title>
+<meta name="theme-color" content="#150b2e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--night:#150b2e;--plum:#2c1354;--gold:#ffb43a;--rose:#e0457b;--cream:#fff3dc;--ember:#ff7a2f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% 0%,#3a1768 0%,var(--night) 60%) fixed;color:var(--cream);font-family:'Lora',Georgia,serif;font-size:1.12rem;line-height:1.85;overflow-x:hidden}
+body.locked{overflow:hidden}
+h1,h2,.sign{font-family:'Yatra One','Lora',serif;font-weight:400;line-height:1.15;margin:0}
+p{margin:0 0 1.2em}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+
+/* diya */
+.diya{position:relative;width:150px;height:110px;margin:0 auto}
+.bowl{position:absolute;bottom:0;left:0;right:0;height:62px;border-radius:0 0 150px 150px;background:linear-gradient(#e0813a,#8e3b17);box-shadow:inset 0 6px 0 #ffb86b,0 0 40px rgba(255,140,40,.0);transition:box-shadow 1s}
+.bowl::after{content:"";position:absolute;left:12%;right:12%;top:12px;height:8px;border-radius:50%;background:repeating-linear-gradient(90deg,#ffd38a 0 8px,transparent 8px 16px);opacity:.7}
+.flame{position:absolute;left:50%;bottom:58px;width:30px;height:62px;margin-left:-15px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(ellipse at 50% 75%,#fff6c8 0,#ffc23a 38%,var(--ember) 80%);transform-origin:50% 100%;transform:scale(0);opacity:0;filter:blur(.4px);transition:transform .6s,opacity .6s}
+.lit .flame,.gate.lighting .flame{transform:scale(1);opacity:1;animation:flick 1.6s ease-in-out infinite .6s}
+.lit .bowl,.gate.lighting .bowl{box-shadow:inset 0 6px 0 #ffb86b,0 0 70px 20px rgba(255,150,50,.45)}
+@keyframes flick{0%,100%{transform:scale(1) skewX(0)}30%{transform:scale(1.04,.96) skewX(2deg)}60%{transform:scale(.97,1.05) skewX(-2deg)}}
+
+/* gate */
+.gate{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;background:#0d0620;text-align:center;padding:24px;transition:opacity 1.4s ease .5s,visibility 0s 1.9s}
+.gate.gone{opacity:0;visibility:hidden}
+.gate button{font:inherit;font-size:1.15rem;color:var(--cream);background:none;border:1px solid rgba(255,180,58,.6);border-radius:999px;padding:.7em 1.6em;cursor:pointer}
+.gate button:hover,.gate button:focus-visible{background:rgba(255,180,58,.15);outline:2px solid var(--gold);outline-offset:3px}
+.gate p{margin:0;opacity:.75;font-style:italic}
+
+/* layout */
+main{max-width:980px;margin:0 auto;padding:0 22px}
+section{padding:72px 0}
+.hero{min-height:100svh;display:grid;gap:36px;align-items:center;padding:56px 0 40px}
+.hero .diya{margin:0 0 18px}
+h1{font-size:clamp(2.4rem,9vw,4.6rem);color:var(--gold);text-shadow:0 0 30px rgba(255,150,50,.35)}
+.hero p.lead{font-size:1.3rem;margin-top:22px}
+h2{font-size:clamp(1.7rem,5.5vw,2.5rem);color:var(--gold);margin-bottom:.6em}
+.split{display:grid;gap:34px;align-items:center}
+@media(min-width:780px){
+ .hero,.split{grid-template-columns:1.1fr .9fr;gap:60px}
+ .split.flip>figure{order:-1}
+}
+.big{font-family:'Yatra One',serif;font-size:clamp(1.6rem,5vw,2.6rem);line-height:1.35;text-align:center;max-width:22ch;margin:0 auto;color:var(--cream)}
+.big span{color:var(--rose)}
+
+/* arch photo frames */
+figure{margin:0}
+figure.arch{width:min(100%,360px);margin:0 auto;padding:10px;border-radius:999px 999px 18px 18px;background:linear-gradient(160deg,var(--gold),var(--rose));box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 60px rgba(255,150,50,.18)}
+figure.arch img{display:block;width:100%;aspect-ratio:3/4.2;object-fit:cover;border-radius:999px 999px 10px 10px;cursor:zoom-in}
+figure.arch.top img{object-position:50% 12%}
+figure.arch.mid img{object-position:50% 30%}
+figcaption{text-align:center;font-style:italic;opacity:.8;margin-top:12px;font-size:.98rem}
+
+/* scrapbook */
+.board{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.board figure{background:#fff3dc;color:#3a1768;padding:10px 10px 6px;border-radius:6px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.board figure:first-child{grid-column:1/-1;transform:rotate(-1deg)}
+.board figure:nth-child(2){transform:rotate(1.6deg)}
+.board figure:nth-child(3){transform:rotate(-1.4deg)}
+.board img{display:block;width:100%;border-radius:3px;cursor:zoom-in}
+.board figure:not(:first-child) img{aspect-ratio:3/4;object-fit:cover}
+.board figcaption{color:#3a1768;margin:8px 0 4px;opacity:1}
+.board+.note{margin-top:44px;text-align:center;max-width:34em;margin-inline:auto}
+
+.quote{border-left:3px solid var(--rose);padding:.2em 0 .2em 1.2em;font-style:italic;margin:1.6em 0;font-size:1.2rem}
+
+/* finale */
+.finale{text-align:center;padding-bottom:110px}
+.finale .diya{margin-bottom:30px}
+.sign{font-size:clamp(2.2rem,8vw,4rem);color:var(--gold);margin:26px 0 8px}
+.finale .who{color:var(--rose);font-size:1.15rem}
+.finale button{margin-top:34px;font:inherit;color:var(--night);background:var(--gold);border:0;border-radius:999px;padding:.7em 1.7em;cursor:pointer;font-size:1.05rem}
+.finale button:focus-visible,.finale button:hover{outline:3px solid var(--cream);outline-offset:3px}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,4,24,.94);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 0 80px rgba(255,150,50,.3)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="locked">
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div class="gate" id="gate">
+  <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
+  <p>Something small is waiting for you, Mau.</p>
+  <button id="light" type="button">Light the diya 🪔</button>
+</div>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
+      <h1>Happy First Diwali, My Mauuu, My Dugi! ❤️</h1>
+      <p class="lead">This Diwali is extra special because it’s our <strong>FIRST DIWALI TOGETHER!</strong> 🥹✨</p>
+    </div>
+    <figure class="arch top"><img src="images/p1.jpg" alt="Sanskar and Mau standing together in a park, Mau looking up at him" loading="eager"></figure>
+  </section>
+
+  <section class="split">
+    <div>
+      <h2>My life changer</h2>
+      <p>I don’t know how to explain how much you mean to me, Mau. But one thing I know is that when you came into my life, everything slowly started changing.</p>
+      <p>You didn’t just become a part of my life; you became the reason behind so many changes in me. You are truly my life changer. ❤️</p>
+    </div>
+    <figure class="arch"><img src="images/p4.jpg" alt="Both smiling at the camera under the trees" loading="lazy"></figure>
+  </section>
+
+  <section>
+    <p class="big">Every memory with you is <span>special</span>.</p>
+  </section>
+
+  <section>
+    <h2>College masti, late nights, bhandans</h2>
+    <p>From our college masti to our endless late-night calls, from silly arguments to our little moments of happiness, every memory with you is special. Even our bhandans have their own beautiful story. 😂❤️</p>
+    <div class="board">
+      <figure><img src="images/p2.jpg" alt="Group selfie with friends on the Sanjivani University grounds" loading="lazy"><figcaption>College masti</figcaption></figure>
+      <figure><img src="images/p7.jpg" alt="Mau and Sanskar with their university ID lanyards" loading="lazy"><figcaption>Our college days</figcaption></figure>
+      <figure><img src="images/p3.jpg" alt="Festive night in colourful traditional outfits with a friend" loading="lazy"><figcaption>Festive nights</figcaption></figure>
+    </div>
+    <p class="note">Our college memories, our random talks, our late-night calls, our teasing, our nok-jhok and even our little fights are things I never want to forget.</p>
+  </section>
+
+  <section class="split flip">
+    <div>
+      <h2>What you taught me, Dugi</h2>
+      <p>Dugi, you taught me something very important about love: every fight doesn’t mean someone is right or wrong. Sometimes, love means understanding, adjusting and choosing each other even when things get difficult.</p>
+      <p>I know I’m not always correct. Sometimes I make mistakes, sometimes I get angry, and sometimes I don’t understand things properly. But I’m learning.</p>
+      <p class="quote">You have taught me that a relationship isn’t about winning every argument; it’s about understanding each other and not giving up on each other.</p>
+    </div>
+    <figure class="arch mid"><img src="images/p5.jpg" alt="Standing arm in arm, both smiling" loading="lazy"></figure>
+  </section>
+
+  <section class="split">
+    <div>
+      <h2>Not perfect, just growing</h2>
+      <p>Mau, I don’t want us to be perfect. I just want us to keep growing together, understanding each other, supporting each other and creating thousands of beautiful memories.</p>
+      <p>Thank you for entering my life and changing it in ways you probably don’t even realise.</p>
+      <p>May this Diwali bring you endless happiness, success, love and all the beautiful things you deserve.</p>
+    </div>
+    <figure class="arch top"><img src="images/p6.jpg" alt="Walking together down a leafy path, looking at each other" loading="lazy"></figure>
+  </section>
+
+  <section>
+    <p class="big">No matter how many bhandans we have, let’s never stop <span>choosing each other</span>. ❤️</p>
+  </section>
+
+  <section class="finale">
+    <div class="diya" aria-hidden="true"><div class="flame"></div><div class="bowl"></div></div>
+    <p>And one more thing, Dugi, I hope this is just the FIRST of countless Diwalis we celebrate together. 🥹❤️</p>
+    <div class="sign">Happy Diwali, Mau! ❤️</div>
+    <p class="who">My favourite person, my Dugi, my life changer and one of the most special parts of my life.</p>
+    <p>Love you, Mauuu! 🫂❤️🪔</p>
+    <button id="again" type="button">Light up the sky again ✨</button>
+  </section>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-label="Photo"><img alt=""></div>
+
+<script>
+(function(){
+  var cv=document.getElementById('fx'),cx=cv.getContext('2d'),P=[],W,H;
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cols=['#ffb43a','#ff7a2f','#e0457b','#fff3dc','#ffd38a'];
+  function size(){var d=window.devicePixelRatio||1;W=cv.width=innerWidth*d;H=cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+  addEventListener('resize',size);size();
+  function burst(x,y,n){
+    if(still)return;
+    for(var i=0;i<n;i++){var a=Math.random()*6.283,s=1.5+Math.random()*5;
+      P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:1,d:.008+Math.random()*.012,c:cols[i%cols.length],r:1.5+Math.random()*2})}
+  }
+  var lit=false;
+  function ember(){
+    if(lit&&!still&&P.length<90&&Math.random()<.12)
+      P.push({x:Math.random()*innerWidth,y:innerHeight+10,vx:(Math.random()-.5)*.6,vy:-(.6+Math.random()*1.2),l:.7,d:.002,c:'#ffb43a',r:1+Math.random()*1.6,e:1});
+  }
+  function tick(){
+    cx.clearRect(0,0,innerWidth,innerHeight);ember();
+    for(var i=P.length-1;i>=0;i--){var p=P[i];
+      p.x+=p.vx;p.y+=p.vy;if(!p.e)p.vy+=.06;p.l-=p.d;
+      if(p.l<=0){P.splice(i,1);continue}
+      cx.globalAlpha=Math.max(p.l,0);cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill()}
+    cx.globalAlpha=1;requestAnimationFrame(tick)
+  }
+  tick();
+  function sky(){for(var i=0;i<5;i++)setTimeout(function(){burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.4),70)},i*350)}
+
+  var gate=document.getElementById('gate');
+  document.getElementById('light').addEventListener('click',function(){
+    gate.classList.add('lighting');
+    setTimeout(function(){
+      document.body.classList.remove('locked');document.body.classList.add('lit');lit=true;
+      gate.classList.add('gone');sky();window.scrollTo(0,0)
+    },900)
+  });
+  document.getElementById('again').addEventListener('click',sky);
+  document.addEventListener('click',function(e){if(lit&&!e.target.closest('button,.lb'))burst(e.clientX,e.clientY,26)});
+
+  var lb=document.getElementById('lb'),li=lb.querySelector('img');
+  document.querySelectorAll('figure img').forEach(function(im){
+    im.addEventListener('click',function(){li.src=im.src;li.alt=im.alt;lb.classList.add('on')})
+  });
+  lb.addEventListener('click',function(){lb.classList.remove('on')});
+  addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
+})();
+</script>
+</body>
+</html>
